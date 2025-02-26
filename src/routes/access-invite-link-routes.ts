@@ -1,6 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { env } from '../env'
+import { acessInveteLink } from '../functions/acess-invite-link'
 
 export const accessInviteLinkRoute: FastifyPluginAsyncZod = async app => {
   app.get(
@@ -21,18 +22,18 @@ export const accessInviteLinkRoute: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
-      const { subscriberId } = request.params
+      const { subscriberId } = request.params // pega o subscriberId da URL
 
-      console.log(subscriberId)
+      await acessInveteLink({ subscriberId })
 
-      const redirectUrl = new URL(env.WEB_URL)
+      const redirectUrl = new URL(env.WEB_URL) // pega a URL base ( https://exemplo.com )
 
-      redirectUrl.searchParams.set('referrer', subscriberId)
+      redirectUrl.searchParams.set('referrer', subscriberId) // adiciona o subscriberId como parâmetro na URL ( https://exemplo.com?referrer=1234 )
 
       // 301: redirect permanente
       // 302: redirect temporário
 
-      return reply.redirect(redirectUrl.toString(), 302)
+      return reply.redirect(redirectUrl.toString(), 302) // redireciona o user para a nova url
     }
   )
 }
