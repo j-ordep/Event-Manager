@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=connect
+      - POSTGRES_DB=connect-db
 
   service-redis:
     image: bitnami/redis
