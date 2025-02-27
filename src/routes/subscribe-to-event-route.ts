@@ -13,6 +13,7 @@ export const subscribeToEventRoute: FastifyPluginAsyncZod = async app => {
         body: z.object({
           name: z.string(),
           email: z.string().email(),
+          referrer: z.string().nullish()
         }),
         response: {
           201: z.object({
@@ -24,12 +25,13 @@ export const subscribeToEventRoute: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
-      const { name, email } = request.body // desestruturação o body, pegando name e email do request.body 
+      const { name, email, referrer } = request.body // desestruturação o body, pegando name e email do request.body 
 
       // retornar um objeto que contém, pelo menos, o subscriberId
       const { subscriberId } = await subscribeToEven({ // recebe o name e email do request.body 
         name,
         email,
+        referrerId: referrer,
       })
 
 
