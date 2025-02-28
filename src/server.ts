@@ -14,6 +14,7 @@ import { accessInviteLinkRoute } from './routes/access-invite-link-route'
 import { getSubscriberInvitesClicksRoute } from './routes/get-subscriber-invites-clicks-route'
 import { getSubscriberInvitesCountRoute } from './routes/get-subscriber-invetes-count-route'
 import { getSubscriberRankingPositionRoute } from './routes/get-subscriber-ranking-position'
+import { getRankingRoute } from './routes/get-ranking-route'
 
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -32,7 +33,7 @@ app.register(fastifySwagger, {
       version: '0.0.1',
     },
   },
-  transform: jsonSchemaTransform, // transforma o codigo em documentação automatica para o swagger (Json)
+  transform: jsonSchemaTransform,
 })
 
 app.register(fastifySwaggerUi, {
@@ -44,6 +45,7 @@ app.register(accessInviteLinkRoute)
 app.register(getSubscriberInvitesClicksRoute)
 app.register(getSubscriberInvitesCountRoute)
 app.register(getSubscriberRankingPositionRoute)
+app.register(getRankingRoute)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log('HTTP server running')

@@ -5,8 +5,7 @@ interface GetSubscriberInvitesCountParams {
 }
 
 export async function getSubscriberInvitesCount( { subscriberId }: GetSubscriberInvitesCountParams) {
-  // Z no redis trabalha com Sorted Sets
-  const accessCount = await redis.zscore('referral:ranking', subscriberId) 
+  const accessCount = await redis.zscore('referral:ranking', subscriberId) // diferente do ZINCRBY, que altera o score, o ZSCORE apenas consulta o valor atual
   
   return { count: accessCount ? Number.parseInt(accessCount) : 0 }
 }

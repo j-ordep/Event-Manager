@@ -1,5 +1,3 @@
-// criar usuario no banco
-
 import { eq } from 'drizzle-orm'
 import { db } from '../drizzle/client'
 import { subscriptions } from '../drizzle/schema/subscriptions'
@@ -8,19 +6,18 @@ import { redis } from '../redis/client'
 interface SubscribeToEvenParams {
   name: string
   email: string
-  referrerId?: string | null
+  referrerId: string | null
 }
 
-// parametro desestruturados {em um objeto}, do tipo SubscribeToEvenParams ( interface )
 export async function subscribeToEven({ name, email, referrerId }: SubscribeToEvenParams) {
 
-  // consulta para verificar se o email já foi registrado
+  // verifica se o email do banco é igual o email do usuario
   const subscribers = await db
     .select()
     .from(subscriptions)
-    .where(eq(subscriptions.email, email)) // verifica se o email do banco é igual o email do usuario
+    .where(eq(subscriptions.email, email))
 
-  if (subscribers.length > 0) { // se der true significa que o e-mail já está cadastrado.
+  if (subscribers.length > 0) {
     return { subscriberId: subscribers[0].id }
   }
 
@@ -31,19 +28,16 @@ export async function subscribeToEven({ name, email, referrerId }: SubscribeToEv
       name,
       email,
     })
-    .returning() // retorna um array de objetos, onde cada objeto é uma linha inserida, incluindo o id
+    .returning()
 
+    // incrementa o contador de convites aceitos para o referrerId no ranking.
     if(referrerId) {
-      // Sorted Set
-      await redis.zincrby('referral:ranking', 1, referrerId) // ranking de usuarios com mais convites aceitos
+      await redis.zincrby('referral:ranking', 1, referrerId) 
     }
 
-
-  const subscriber = result[0] // pega o objeto que está na posição 0 no array
+  const subscriber = result[0]
 
   return {
-    // retorna como objeto, pois é mais fácil de adicionar mais propriedades futuramente no retorno
-    // pega o id dentro do objeto subscriber (subscriber.id) e armazena em subscriberId
     subscriberId: subscriber.id,
   }
 }
