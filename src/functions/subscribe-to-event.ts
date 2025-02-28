@@ -9,7 +9,7 @@ interface SubscribeToEvenParams {
   referrerId: string | null
 }
 
-export async function subscribeToEven({ name, email, referrerId }: SubscribeToEvenParams) {
+export async function subscribeToEvent({ name, email, referrerId }: SubscribeToEvenParams) {
 
   // verifica se o email do banco é igual o email do usuario
   const subscribers = await db
