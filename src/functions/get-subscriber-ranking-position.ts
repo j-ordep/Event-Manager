@@ -11,5 +11,5 @@ export async function getSubscriberRankingPosition({ subscriberId }: GetSubscrib
     return { position: null }
   }
 
-  return { position: rank + 1 } // +1 pois o redis.zrevrank retorna o index(que é sempre um valor abaixo)
+  return { position: rank + 1 }
 } 
