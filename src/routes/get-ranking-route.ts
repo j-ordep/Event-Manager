@@ -9,14 +9,13 @@ export const getRankingRoute: FastifyPluginAsyncZod = async app => {
       schema: {
         summary: 'Get ranking',
         tags: ['referral'],
-        
         response: {
           200: z.object({
             ranking: z.array(
               z.object({
                 id: z.string(),
                 name: z.string(),
-                score:z.number()
+                score: z.number()
               })
             )
           }),
@@ -25,9 +24,9 @@ export const getRankingRoute: FastifyPluginAsyncZod = async app => {
     },
     async request => {
 
-      const { rakingWithScore } = await getRanking()
+      const { rankingWithScore } = await getRanking()
 
-      return { ranking: rakingWithScore}
+      return { ranking: rankingWithScore }
     }
   )
 }

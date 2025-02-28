@@ -3,13 +3,13 @@ import { db } from '../drizzle/client'
 import { subscriptions } from '../drizzle/schema/subscriptions'
 import { redis } from '../redis/client'
 
-interface SubscribeToEvenParams {
+interface SubscribeToEventParams {
   name: string
   email: string
   referrerId: string | null
 }
 
-export async function subscribeToEvent({ name, email, referrerId }: SubscribeToEvenParams) {
+export async function subscribeToEvent({ name, email, referrerId }: SubscribeToEventParams) {
 
   // verifica se o email do banco é igual o email do usuario
   const subscribers = await db
