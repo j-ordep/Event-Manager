@@ -5,5 +5,5 @@ interface AccessInveteLinkParams {
 }
 
 export async function accessInveteLink({ subscriberId }: AccessInveteLinkParams) {
-  await redis.hincrby('referral:access-count', subscriberId, 1) // (permanece - não apagar) redis.hincby, incrementa 1 na tabela hash referente ao subscriberId
+  await redis.hincrby('referral:access-count', subscriberId, 1) // redis.hincby, incrementa 1 na tabela hash referente ao subscriberId
 }
